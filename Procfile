@@ -1,1 +1,2 @@
-web: julia --project src/MyFirstGenieApp.jl $PORT
+web: julia --project src/app.jl $PORT
+
