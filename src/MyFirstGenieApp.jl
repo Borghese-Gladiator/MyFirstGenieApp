@@ -1,14 +1,19 @@
-module MyFirstGenieApp
+using Genie
+using Genie.Router
 
-using Genie, Logging, LoggingExtras
+function launchServer(port)
 
-function main()
-  Core.eval(Main, :(const UserApp = $(@__MODULE__)))
+    Genie.config.run_as_server = true
+    Genie.config.server_host = "0.0.0.0"
+    Genie.config.server_port = port
 
-  Genie.genie(; context = @__MODULE__)
+    println("port set to $(port)")
 
-  Core.eval(Main, :(const Genie = UserApp.Genie))
-  Core.eval(Main, :(using Genie))
+    route("/") do
+        "Hi there!"
+    end
+
+    Genie.AppServer.startup()
 end
 
-end
+launchServer(parse(Int, ARGS[1]))
